@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+	<test thread-count="5" name="Wiki Test">
+
+		<parameter name="site" value="wiki" />
+		<parameter name="url" value="https://en.wikipedia.org/wiki/Pushpa:_The_Rise" />
+		<classes>
+			<class name="com.qa.imbdwiki.tests.WikiPageTest" />
+		</classes>
+	</test> <!-- Test -->
+
+	<test thread-count="5" name="IMDB Test">
+        <parameter name="site" value="imdb" />
+		<parameter name="url" value="https://www.imdb.com/" />
+		<classes>
+			<class name="com.qa.imbdwiki.tests.ImdbPageTest" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->
