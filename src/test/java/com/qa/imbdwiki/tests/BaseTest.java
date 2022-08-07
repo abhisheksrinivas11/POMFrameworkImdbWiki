@@ -9,30 +9,32 @@ import org.testng.asserts.SoftAssert;
 
 import com.qa.imbdwiki.pages.ImdbHomePage;
 import com.qa.imbdwiki.pages.ImdbMovieInfoPage;
-import com.qa.imbdwiki.pages.WikiPage;
+import com.qa.imbdwiki.pages.WikiHomePage;
+import com.qa.imbdwiki.pages.WikiInfoPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
-	
+
 	WebDriver driver;
-	WikiPage wikipage;
+	WikiInfoPage wikiInfopage;
 	ImdbHomePage homePage;
 	ImdbMovieInfoPage movInfoPage;
-	
+	WikiHomePage wikiHomPage;
+
 	SoftAssert softAssert;
-	
-	
-	@Parameters({"site","url"})
+
+	@Parameters({ "site", "url" })
 	@BeforeTest
 	public void setUp(String site, String url) {
-		if(site.equals("wiki")) {
+		if (site.equals("wiki")) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 			driver.get(url);
 			driver.manage().window().maximize();
-			wikipage = new WikiPage(driver);
-		}else if(site.equals("imdb")) {
+			wikiHomPage = new WikiHomePage(driver);
+			softAssert = new SoftAssert();
+		} else if (site.equals("imdb")) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 			driver.get(url);
@@ -41,12 +43,10 @@ public class BaseTest {
 			softAssert = new SoftAssert();
 		}
 	}
-	
+
 	@AfterTest
 	public void tearDown() {
 		driver.quit();
 	}
-	
-	
-}
 
+}

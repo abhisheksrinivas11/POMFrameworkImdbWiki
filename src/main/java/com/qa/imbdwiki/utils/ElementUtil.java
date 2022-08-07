@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,6 +27,10 @@ public class ElementUtil {
 		ele.sendKeys(Value);
 	}
 	
+	public void doClick(By locator) {
+		getElement(locator).click();
+	}
+	
 	public String doGetText(By locator,int timeout) {
 		return waitForElementVisible(locator, timeout).getText();
 	}
@@ -38,6 +43,11 @@ public class ElementUtil {
 	public WebElement waitForElementVisible(By locator, int timeOut) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
+	
+	public void scrollIntoView(By locator) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", getElement(locator));
 	}
 
 }

@@ -1,30 +1,29 @@
 package com.qa.imbdwiki.tests;
 
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import com.qa.imbdwiki.pages.WikiPage;
-import com.qa.imbdwiki.utils.Constants;
+import org.testng.asserts.SoftAssert;
 
 public class WikiPageTest extends BaseTest {
-	
-	
-	@Test()
-	public void releaseDateTest() {
-		String relDate = wikipage.getReleaseDateText();
-		System.out.println("Releasedate value in wiki is "+relDate);
-		Assert.assertEquals(relDate, Constants.WIKI_RELEASE_DATE);
-		
-		
+
+	@DataProvider
+	public Object[][] movieDetails() {
+		return new Object[][] { { "Pushpa: The Rise", "17 December 2021", "India" },
+				{ "K.G.F: Chapter 2", "14 April 2022", "India" } };
 	}
-	
-	@Test()
-	public void countryTest() {
-		String country = wikipage.getCountry();
-		System.out.println("Country value in wiki is "+country);
-		Assert.assertEquals(country, Constants.WIKI_COUNTRY);
+
+	@Test(dataProvider = "movieDetails")
+	public void movieInfoTest(String movieName, String releaseDate, String countryOfOrigin) {
+		softAssert = new SoftAssert();
+		wikiHomPage.doSearchByMovie(movieName);
+		wikiInfopage = wikiHomPage.doClick();
+		String reldate = wikiInfopage.getReleaseDateInfo();
+		String country = wikiInfopage.getCountryInfo();
+		System.out.println("Release date of " + movieName + " in Wiki is " + reldate);
+		System.out.println("Country of Origin of " + movieName + " in Wiki is " + country);
+		softAssert.assertEquals(reldate, releaseDate, "Release Date of " + movieName + "not matched");
+		softAssert.assertEquals(country, countryOfOrigin, "Country of" + movieName + " not matched");
+		softAssert.assertAll();
 	}
-	
 
 }
